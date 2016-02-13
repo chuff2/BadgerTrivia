@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.app.Activity;
 
 /**
  * Created by connerhuff on 2/13/16.
@@ -23,8 +24,23 @@ public class ImageBasedFragment extends Fragment {
     private ImageView image;
     private TextView questionText;
     private Question q;
+    private OnQuestionAnsweredListener mListener;
 
+    //these are the callback methods
+    public interface OnQuestionAnsweredListener {
+        public boolean onQuestionAnswered(boolean answerCorrect);
+        public String onGameOverGetFinalScore();
+    }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnQuestionAnsweredListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnQuestionAnsweredListener");
+        }
+    }
 
     public static ImageBasedFragment newInstance(Question q) {
         ImageBasedFragment fragment = new ImageBasedFragment();
@@ -35,20 +51,11 @@ public class ImageBasedFragment extends Fragment {
 
     public ImageBasedFragment() {
         // Required empty public constructor
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(getActivity(), "Got here in onCreate",
-                Toast.LENGTH_LONG).show();
-        if (getArguments() != null) {
-            /*
-            player1Choice = getArguments().getString(ARG_PLAYER_ONE);
-            player2Choice = getArguments().getString(ARG_PLAYER_TWO);
-            */
-        }
     }
 
 
@@ -86,13 +93,20 @@ public class ImageBasedFragment extends Fragment {
                 String rightAnswer = q.getqAnswer();
                 String playersAnswer = answerBox.getText().toString();
                 //if the player got the question right
+                boolean showDialogNow;
                 if (playersAnswer.equalsIgnoreCase(rightAnswer)){
-                    //getActivity().getC;
+                    //implement call backs so we can get score information
+                    showDialogNow = mListener.onQuestionAnswered(true);
                 }
                 else {
-
+                    showDialogNow = mListener.onQuestionAnswered(false);
                 }
 
+                if (showDialogNow){
+                    String finalScore = mListener.onGameOverGetFinalScore();
+                    Toast.makeText(getActivity(), finalScore, Toast.LENGTH_SHORT).show();
+                    //TODO put dialog stuff here
+                }
             }
         });
 

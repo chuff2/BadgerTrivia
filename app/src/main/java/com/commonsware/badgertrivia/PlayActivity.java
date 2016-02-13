@@ -11,7 +11,7 @@ import java.util.Queue;
 /**
  * Created by connerhuff on 2/13/16.
  */
-public class PlayActivity extends AppCompatActivity{
+public class PlayActivity extends AppCompatActivity implements ImageBasedFragment.OnQuestionAnsweredListener {
 
     //this should be where I hold the array of info for all the data for the questions
     private Queue<Question> questions;
@@ -60,13 +60,34 @@ public class PlayActivity extends AppCompatActivity{
         //q1 image type
         q = q.newInstance(true, "What was this Badger halfback's nickname?", "The horse", null, R.drawable.alan_ameche);
         questions.add(q);
-
+        /*
         //q2 image type
         q = q.newInstance(true, "Who is this former Badger basketball player?", "Devin Harris", null, R.drawable.devin_harris);
         questions.add(q);
+        */
 
 
         //(boolean imageType, String query, String answer, ArrayList<String> candidates, int imageId)
+    }
+
+    public boolean onQuestionAnswered(boolean correctAnswer){
+        if (correctAnswer){
+            numCorrect++;
+        }
+        else{
+            numWrong++;
+        }
+
+        //if we are now done with questions, let the fragment know so we can queue a dialog
+        if (numWrong + numCorrect == totalNumQuestions){
+            return true;
+        }
+        return false;
+    }
+
+    public String onGameOverGetFinalScore(){
+        String returnString = "Final Score: " + this.numCorrect + "/" + this.totalNumQuestions + ". Play again?";
+        return returnString;
     }
 
     public Queue<Question> getQuestions() {
