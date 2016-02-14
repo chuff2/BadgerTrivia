@@ -3,6 +3,7 @@ package com.commonsware.badgertrivia;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,38 +98,37 @@ public class ImageBasedFragment extends Fragment {
                 String playersAnswer = answerBox.getText().toString();
                 //if the player got the question right
                 boolean showDialogNow;
-                if (playersAnswer.equalsIgnoreCase(rightAnswer)){
+                if (playersAnswer.equalsIgnoreCase(rightAnswer)) {
                     //implement call backs so we can get score information
                     showDialogNow = mListener.onQuestionAnswered(true);
-                }
-                else {
+                } else {
                     showDialogNow = mListener.onQuestionAnswered(false);
                 }
 
                 //if the questions have been exhausted
-                if (showDialogNow){
+                if (showDialogNow) {
                     String finalScore = mListener.onGameOverGetFinalScore();
                     Toast.makeText(getActivity(), finalScore, Toast.LENGTH_SHORT).show();
                     //TODO put dialog stuff here
-
+                    displayScore(finalScore);
                 }
                 //there are more questions to go
-                else{
+                else {
                     Queue<Question> remainingQs = mListener.getRemainingQuestions();
                     Question currQuestion = remainingQs.poll();
-                    if (currQuestion.isImageBased()){
+                    if (currQuestion.isImageBased()) {
                         getFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.main_fragment_container, ImageBasedFragment.newInstance(currQuestion))
-                            .commit();
+                                .beginTransaction()
+                                .replace(R.id.main_fragment_container, ImageBasedFragment.newInstance(currQuestion))
+                                .commit();
 
                     }
                     //otherwise we know it is text based so we can do this instead
-                    else{
+                    else {
                         getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.main_fragment_container, TextBasedFragment.newInstance(currQuestion))
-                            .commit();
+                                .beginTransaction()
+                                .replace(R.id.main_fragment_container, TextBasedFragment.newInstance(currQuestion))
+                                .commit();
                     }
                 }
             }
@@ -137,26 +137,41 @@ public class ImageBasedFragment extends Fragment {
     }
 
 
-    private void displayWinner(String winner){
+    private void displayScore(String winner){
+
+        //TODO finish implementing this AlertDialog
+
         //do a prompt about the winner
         new AlertDialog.Builder(getActivity())
                 .setCancelable(true)
-                .setTitle("Winner is:")
+                .setTitle("Play again?")
                 .setMessage(winner)
                 .setPositiveButton("Replay", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        //TODO start a rematch!
+                        replay();
                     }
                 })
                 .setNegativeButton("Quit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        //TODO back out the the start screen
+                        backToStartScreen();
                     }
                 })
                 .show();
 
+    }
+
+    private void backToStartScreen(){
+        Intent welcomeActivity = new Intent(getActivity(), WelcomeActivity.class);
+        startActivity(welcomeActivity);
+    }
+
+    private void replay(){
+        Intent playActivity = new Intent(getActivity(), PlayActivity.class);
+        startActivity(playActivity);
     }
 
 }

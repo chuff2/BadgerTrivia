@@ -11,7 +11,7 @@ import java.util.Queue;
 /**
  * Created by connerhuff on 2/13/16.
  */
-public class PlayActivity extends AppCompatActivity implements ImageBasedFragment.OnQuestionAnsweredListener {
+public class PlayActivity extends AppCompatActivity implements ImageBasedFragment.OnQuestionAnsweredListener, TextBasedFragment.OnQuestionAnsweredListener {
 
     //this should be where I hold the array of info for all the data for the questions
     private Queue<Question> questions;
@@ -51,7 +51,7 @@ public class PlayActivity extends AppCompatActivity implements ImageBasedFragmen
     //here we prepare all the question objects with predetermined questions
     private void prepareAllQuestions(){
         questions = new LinkedList<Question>();
-        totalNumQuestions = 2;
+        totalNumQuestions = 5;
         //String[] answers = {"The dog", "The frog", "The horse", "The cricket"};
         //new ArrayList<String>(Arrays.asList(answers))
 
@@ -65,8 +65,22 @@ public class PlayActivity extends AppCompatActivity implements ImageBasedFragmen
         q2 = q2.newInstance(true, "Who is this former Badger basketball player?", "Devin Harris", null, R.drawable.devin_harris);
         questions.add(q2);
 
+        //q3 image type
+        Question q3 = new Question();
+        String[] answers3 = {"234", "393", "408", "432"};
+        q3 = q3.newInstance(false, "How many yards did MGIII get against Nebraska in 2014?", "408", new ArrayList<String>(Arrays.asList(answers3)), 0);
+        questions.add(q3);
 
-        //(boolean imageType, String query, String answer, ArrayList<String> candidates, int imageId)
+        //q4 image type
+        Question q4 = new Question();
+        q4 = q4.newInstance(true, "What do the JJ in JJ Watt stand for?", "Justin James", null, R.drawable.jj_watt);
+        questions.add(q4);
+
+        //q5 image type
+        Question q5 = new Question();
+        String[] answers5 = {"Frank Kaminsky", "Alando Tucker", "Jordan Taylor", "Michael Finley"};
+        q5 = q5.newInstance(false, "Who is the all-time leading scorer for Badger mens basketball?", "Alando Tucker", new ArrayList<String>(Arrays.asList(answers5)), 0);
+        questions.add(q5);
     }
 
     public boolean onQuestionAnswered(boolean correctAnswer){
