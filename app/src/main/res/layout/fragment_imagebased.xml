@@ -11,7 +11,6 @@
         android:id="@+id/questionText"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
-        android:text="Q: Who is this Wisconsin Badger?"
         android:padding="20sp"/>
 
     <ImageView
