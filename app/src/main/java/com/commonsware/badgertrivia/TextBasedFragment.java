@@ -14,12 +14,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.app.Activity;
 import java.util.Queue;
-import android.widget.FrameLayout;
 
 /**
  * Created by connerhuff on 2/13/16.
  */
-public class ImageBasedFragment extends Fragment {
+public class TextBasedFragment extends Fragment {
 
     private Button submitButton;
     private EditText answerBox;
@@ -45,14 +44,14 @@ public class ImageBasedFragment extends Fragment {
         }
     }
 
-    public static ImageBasedFragment newInstance(Question q) {
-        ImageBasedFragment fragment = new ImageBasedFragment();
+    public static TextBasedFragment newInstance(Question q) {
+        TextBasedFragment fragment = new TextBasedFragment();
         fragment.q = q;
         //no bundle info for now
         return fragment;
     }
 
-    public ImageBasedFragment() {
+    public TextBasedFragment() {
         // Required empty public constructor
     }
 
@@ -118,17 +117,16 @@ public class ImageBasedFragment extends Fragment {
                     Question currQuestion = remainingQs.poll();
                     if (currQuestion.isImageBased()){
                         getFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.main_fragment_container, ImageBasedFragment.newInstance(currQuestion))
-                            .commit();
-
+                                .beginTransaction()
+                                .replace(R.id.main_fragment_container, ImageBasedFragment.newInstance(currQuestion))
+                                .commit();
                     }
                     //otherwise we know it is text based so we can do this instead
                     else{
                         getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.main_fragment_container, TextBasedFragment.newInstance(currQuestion))
-                            .commit();
+                                .beginTransaction()
+                                .replace(R.id.main_fragment_container, TextBasedFragment.newInstance(currQuestion))
+                                .commit();
                     }
                 }
             }

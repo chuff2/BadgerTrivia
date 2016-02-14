@@ -26,45 +26,44 @@ public class PlayActivity extends AppCompatActivity implements ImageBasedFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
+        //initialize numbers and questions
         prepareAllQuestions();
         numCorrect = 0;
         numWrong = 0;
-
 
         //if our first question is image based then we need to start an ImageBasedFragment
         Question currQuestion = questions.poll();
         if (currQuestion.isImageBased()){
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.main_fragment_container, ImageBasedFragment.newInstance(currQuestion))
-                    .addToBackStack(null)
+                    .add(R.id.main_fragment_container, ImageBasedFragment.newInstance(currQuestion))
                     .commit();
         }
         //otherwise we know it is text based so we can do this instead
         else{
-            /*getFragmentManager()
+            getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.main_fragment_container, TextBasedFragment.newInstance())
-                    .addToBackStack(null)
+                    .add(R.id.main_fragment_container, TextBasedFragment.newInstance(currQuestion))
                     .commit();
-        */
         }
     }
 
+    //here we prepare all the question objects with predetermined questions
     private void prepareAllQuestions(){
         questions = new LinkedList<Question>();
-        Question q = new Question();
-        totalNumQuestions = 1;
-        String[] answers = {"The dog", "The frog", "The horse", "The cricket"};
+        totalNumQuestions = 2;
+        //String[] answers = {"The dog", "The frog", "The horse", "The cricket"};
         //new ArrayList<String>(Arrays.asList(answers))
+
         //q1 image type
-        q = q.newInstance(true, "What was this Badger halfback's nickname?", "The horse", null, R.drawable.alan_ameche);
-        questions.add(q);
-        /*
+        Question q1 = new Question();
+        q1 = q1.newInstance(true, "What was this Badger halfback's nickname?", "The horse", null, R.drawable.alan_ameche);
+        questions.add(q1);
+
         //q2 image type
-        q = q.newInstance(true, "Who is this former Badger basketball player?", "Devin Harris", null, R.drawable.devin_harris);
-        questions.add(q);
-        */
+        Question q2 = new Question();
+        q2 = q2.newInstance(true, "Who is this former Badger basketball player?", "Devin Harris", null, R.drawable.devin_harris);
+        questions.add(q2);
 
 
         //(boolean imageType, String query, String answer, ArrayList<String> candidates, int imageId)
@@ -88,6 +87,10 @@ public class PlayActivity extends AppCompatActivity implements ImageBasedFragmen
     public String onGameOverGetFinalScore(){
         String returnString = "Final Score: " + this.numCorrect + "/" + this.totalNumQuestions + ". Play again?";
         return returnString;
+    }
+
+    public Queue<Question> getRemainingQuestions(){
+        return questions;
     }
 
     public Queue<Question> getQuestions() {

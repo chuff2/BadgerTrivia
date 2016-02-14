@@ -5,22 +5,20 @@
               android:layout_height="match_parent"
               android:background="#BD2031">
 
-    <ImageView
-        android:layout_width="300sp"
-        android:layout_height="300sp"
-        android:id="@+id/questionImage"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/alan_ameche"/>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/questionText"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
-        android:layout_gravity="center_horizontal"
         android:text="Q: Who is this Wisconsin Badger?"
         android:padding="20sp"/>
+
+    <ImageView
+        android:layout_width="300sp"
+        android:layout_height="300sp"
+        android:id="@+id/questionImage"
+        android:layout_gravity="center_horizontal"/>
 
     <LinearLayout
         android:layout_width="match_parent"
