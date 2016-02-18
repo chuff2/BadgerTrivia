@@ -16,6 +16,8 @@ import android.widget.Toast;
 import android.app.Activity;
 import java.util.Queue;
 import android.widget.FrameLayout;
+import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
 
 /**
  * Created by connerhuff on 2/13/16.
@@ -78,6 +80,7 @@ public class ImageBasedFragment extends Fragment {
 
         image.setBackgroundResource(q.getImageResourceId());
         questionText.setText(q.getqText());
+        hideKeyboard(getActivity());
         return view;
 
         // End TA Implementation
@@ -131,6 +134,7 @@ public class ImageBasedFragment extends Fragment {
                                 .commit();
                     }
                 }
+                hideKeyboard(getActivity());
             }
         });
 
@@ -172,6 +176,18 @@ public class ImageBasedFragment extends Fragment {
     private void replay(){
         Intent playActivity = new Intent(getActivity(), PlayActivity.class);
         startActivity(playActivity);
+    }
+
+    public static void hideKeyboard(Context ctx) {
+        InputMethodManager inputManager = (InputMethodManager) ctx
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View v = ((Activity) ctx).getCurrentFocus();
+        if (v == null)
+            return;
+
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
 }

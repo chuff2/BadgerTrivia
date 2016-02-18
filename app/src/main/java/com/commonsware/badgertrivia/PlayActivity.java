@@ -1,12 +1,19 @@
 package com.commonsware.badgertrivia;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Queue;
+import android.util.AttributeSet;
 
 /**
  * Created by connerhuff on 2/13/16.
@@ -46,7 +53,16 @@ public class PlayActivity extends AppCompatActivity implements ImageBasedFragmen
                     .add(R.id.main_fragment_container, TextBasedFragment.newInstance(currQuestion))
                     .commit();
         }
+        hideKeyboard(this);
     }
+    /*
+    @Override
+    protected view onCreateView(String name, Context context, AttributeSet attrs){
+        super.onCreateView(name, context, attrs);
+        hideKeyboard(this);
+        return inflater.inflate(R.layout.left, container, false);
+    }
+    */
 
     //here we prepare all the question objects with predetermined questions
     private void prepareAllQuestions(){
@@ -137,5 +153,17 @@ public class PlayActivity extends AppCompatActivity implements ImageBasedFragmen
 
     public void setTotalNumQuestions(int totalNumQuestions) {
         this.totalNumQuestions = totalNumQuestions;
+    }
+
+    public static void hideKeyboard(Context ctx) {
+        InputMethodManager inputManager = (InputMethodManager) ctx
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View v = ((Activity) ctx).getCurrentFocus();
+        if (v == null)
+            return;
+
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 }

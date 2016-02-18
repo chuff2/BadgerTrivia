@@ -95,6 +95,7 @@ public class TextBasedFragment extends Fragment {
         radio3.setText(candidates.get(2));
         radio4.setText(candidates.get(3));
         questionText.setText(q.getqText());
+
         return view;
 
         // End TA Implementation
