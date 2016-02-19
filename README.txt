@@ -1,4 +1,5 @@
-The link to the youtube video about my app is located here....
+Conner Huff
+chuff2@wisc.edu
 https://youtu.be/qPK9Ms16MeE
 
 Some details about my app... I have to main activities, first I have WelcomeActivity which is 
